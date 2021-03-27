@@ -6,6 +6,8 @@ from flask import Flask, render_template, request
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
+
+from werkzeug.utils import redirect
 from forms import *
 import os
 
@@ -51,29 +53,43 @@ def about():
     return render_template('pages/placeholder.about.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
+
+    if request.method == 'GET':
+        form = LoginForm(request.form)
+        return render_template('forms/login.html', form=form)
+
+    if request.method == 'POST':
+        form = LoginForm(request.form)
+        return render_template('forms/login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
+
+    # user is visiting registration page for the first time
+    if request.method == 'GET':
+        form = RegisterForm(request.form)
+        return render_template('forms/register.html', form=form)
+
+    # user has submitted a request to register
+    if request.method == 'POST':
+        form = RegisterForm(request.form)
+        return redirect('/')
 
 
-@app.route('/forgot')
-def forgot():
-    form = ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
+# @app.route('/forgot')
+# def forgot():
+#     form = ForgotForm(request.form)
+#     return render_template('forms/forgot.html', form=form)
 
 # Error handlers.
 
 
 @app.errorhandler(500)
 def internal_error(error):
-    #db_session.rollback()
+    # db_session.rollback()
     return render_template('errors/500.html'), 500
 
 
@@ -81,10 +97,12 @@ def internal_error(error):
 def not_found_error(error):
     return render_template('errors/404.html'), 404
 
+
 if not app.debug:
     file_handler = FileHandler('error.log')
     file_handler.setFormatter(
-        Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+        Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
     )
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
