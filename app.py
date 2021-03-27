@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------#
 
 from flask import Flask, render_template, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 
@@ -17,7 +17,18 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
-#db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
 
 # Automatically tear down SQLAlchemy.
 '''
@@ -45,12 +56,15 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    user_name = 'USER_NAME'
+    friend_names = ['friend_1', 'friend_2', 'friend_3']
+    return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
 
 
-@app.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html')
+@app.route('/show_friend?friend=<string:friend>')
+def show_friend(friend):
+    current_friend = friend
+    return render_template('pages/placeholder.about.html', current_friend=current_friend)
 
 
 @app.route('/login', methods=['GET', 'POST'])
