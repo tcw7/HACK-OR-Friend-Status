@@ -68,7 +68,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
-    return redirect(/)
+    return redirect('/')
 
 
 # @app.route('/forgot')
