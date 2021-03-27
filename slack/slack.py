@@ -5,10 +5,12 @@ from slack_sdk.errors import SlackApiError
 from pathlib import Path
 from dotenv import load_dotenv
 
-env_path = Path('..') / '.env'
+env_path = Path('.') / 'env' / '.env'
+
 load_dotenv(dotenv_path=env_path)
 
-client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
+client = WebClient(token=os.environ['SLACK_USER_TOKEN'])
+
 
 def get_user_id(user_email):
     try:
@@ -18,6 +20,7 @@ def get_user_id(user_email):
         assert e.response["ok"] is False
         assert e.response["error"]
         print(f"Got an error: {e.response['error']}")
+
 
 def get_user_status(user_id):
     try:

@@ -1,3 +1,5 @@
+# requirements for flask
+
 Fabric
 Flask-SQLAlchemy
 Flask-WTF
@@ -6,3 +8,11 @@ coverage
 # ecdsa
 # paramiko
 # pycrypto
+
+# requirements for slack module
+python-dotenv==0.15.0
+requests==2.25.1
+slack-sdk==3.4.2
+urllib3==1.26.4
+
+
