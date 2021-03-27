@@ -2,24 +2,21 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
+<h1>{{ user_name }}</h1>
 <div class="page-header">
 <table class="table">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Friend</th>
       </tr>
     </thead>
     <tbody>
+      {% for friend in friend_names %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+        <td><a href="{{ url_for('show_friend', friend=friend) }}">{{ friend }}</a></td>
       </tr>
-      <tr>
+      {% endfor %}
+      <!-- <tr>
         <th scope="row">2</th>
         <td>Jacob</td>
         <td>Thornton</td>
@@ -30,7 +27,7 @@
         <td>Larry</td>
         <td>the Bird</td>
         <td>@twitter</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 
