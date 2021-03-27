@@ -67,8 +67,16 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm(request.form)
-    return redirect('/')
+
+    # user is visiting registration page for the first time
+    if request.method == 'GET':
+        form = RegisterForm(request.form)
+        return render_template('forms/register.html', form=form)
+
+    # user has submitted a request to register
+    if request.method == 'POST':
+        form = RegisterForm(request.form)
+        return redirect('/')
 
 
 # @app.route('/forgot')
