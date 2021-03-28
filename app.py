@@ -17,11 +17,12 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -30,6 +31,8 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
+db.create_all()
 
 # Automatically tear down SQLAlchemy.
 '''
@@ -57,7 +60,7 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user_name = 'USER_NAME'
+    user_name = 'user-name'
     friend_names = ['friend_1', 'friend_2', 'friend_3']
     return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
 
@@ -79,6 +82,12 @@ def login():
         login_name = request.form.get('name')
         login_password = request.form.get('password')
         print(login_name, login_password)
+        lookup = User.query.filter_by(username=login_name).first()
+        print(lookup)
+        if login_name == lookup.username:
+            if login_password == lookup.password:
+                session_user = login_name
+                print(session_user)
         return redirect('/')
 
 
@@ -96,8 +105,11 @@ def register():
         register_email = request.form.get('email')
         register_password = request.form.get('password')
         print(register_name, register_email, register_password)
-        User(username=register_name, email=register_email,
-             password=register_password)
+        new_user = User(username=register_name, email=register_email,
+                        password=register_password)
+        db.session.add(new_user)
+        db.session.commit()
+        print(User.query.all())
         return redirect('/login')
 
 
