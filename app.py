@@ -22,6 +22,7 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True)
@@ -79,7 +80,7 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user_name = 'USER_NAME'
+    user_name = 'user-name'
     friend_names = ['friend_1', 'friend_2', 'friend_3']
     return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
 
@@ -94,8 +95,8 @@ def show_friend(friend):
 def login():
 
     if request.method == 'GET':
-        form = LoginForm(request.form)
-        return render_template('forms/login.html', form=form)
+        login_form = LoginForm(request.form)
+        return render_template('forms/login.html', form=login_form)
 
     if request.method == 'POST':
         return render_template('forms/login.html', form=form)
@@ -106,8 +107,8 @@ def register():
 
     # user is visiting registration page for the first time
     if request.method == 'GET':
-        form = RegisterForm(request.form)
-        return render_template('forms/register.html', form=form)
+        register_form = RegisterForm(request.form)
+        return render_template('forms/register.html', form=register_form)
 
     # user has submitted a request to register
     if request.method == 'POST':
