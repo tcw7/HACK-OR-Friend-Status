@@ -83,9 +83,7 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user_name = 'user_name'
-    friend_names = ['friend_1', 'friend_2', 'friend_3']
-    return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
+    return render_template('pages/home.html')
 
 
 @app.route('/<string:user_name>')

@@ -1,0 +1,39 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Friend Status | Home{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1>Friend Status</h1>
+  </div>
+  <li><a href="{{ url_for('register') }}">Signup</a></li>
+    <li><a method="get" href="{{ url_for('login') }}">Login</a></li>
+    <br>
+  <p class="lead">Do you and your friends, teammates, or co-workers use multiple team chat applications?
+    Have you ever wished that you could see their status in those multiple services so you could reach them more quickly wherever they are currently active?</p>
+  <p>Friend Status is a web application that shows their current status across three different team chat platforms:</p>
+  <p>- [Slack](<a href="https://slack.com/">https://slack.com/</a>)</p>
+  <p>- [Discord](<a href="https://discord.com/">https://discord.com/</a>)</p>
+  <p>- [Zulip](<a href="https://zulip.com/">https://zulip.com/</a>)</p>
+  <p>We used boilerplate from: <a href="https://github.com/realpython/flask-boilerplate">https://github.com/realpython/flask-boilerplate</a></p>
+  <p>We also used code samples from the documentation of the respective services.</p>
+  <p>This was created by a beginner team for the [HackOR 2021 Hackathon](<a href="https://hackor.org/">https://hackor.org/</a>).</p>
+
+{% endblock %}
+
+<!-- <h1>Sticky footer with fixed navbar</h1>
+</div>
+<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p> -->
+
+Do you and your friends, teammates, or co-workers use multiple team chat applications?
+Have you ever wished that you could see their status in those multiple services so you could reach them more quickly wherever they are currently active?
+Friend Status is a web application that shows their current status across three different team chat platforms:
+
+- [Slack](https://slack.com/)
+- [Discord](https://discord.com/)
+- [Zulip](https://zulip.com/)
+
+We used boilerplate from: https://github.com/realpython/flask-boilerplate
+
+We also used code samples from the documentation of the respective services.
+
+This was created by a beginner team for the [HackOR 2021 Hackathon](https://hackor.org/).
