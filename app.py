@@ -32,7 +32,6 @@ class User(db.Model):
         return '<User %r>' % self.name
 
 
-<<<<<<< HEAD
 class Friend(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     friendname = db.Column(db.String(120), nullable=False)
@@ -51,29 +50,6 @@ class Service(db.Model):
     
     def __repr__(self):
         return '<User %r>' % self.servicename
-=======
-# class Friend(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     friendname = db.Column(db.String(120), nullable=False)
-#     serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#     services = db.relationship('Service', backref='friend', lazy=True)
-
-#     def __repr__(self):
-#         return '<Friend %r>' % self.friendname
-
-
-# class Service(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     servicename = db.Column(db.String(120), nullable=False)
-#     servicestatus = db.Column(db.String(120), unique=True, nullable=False)
-#     friend_id = db.Column(db.Integer, db.ForeignKey(
-#         'friend.id'), nullable=False)
-
-#     def __repr__(self):
-#         return '<User %r>' % self.servicename
-
->>>>>>> ed1b1ddff256f8bf14d6d4ffbb7d9ea074042c97
 
 db.create_all()
 
