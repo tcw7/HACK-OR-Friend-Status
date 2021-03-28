@@ -10,6 +10,4 @@ Friend Status is a web application that shows their current status across three 
 
 We used boilerplate from: https://github.com/realpython/flask-boilerplate
 
-We also used code samples from the documentation of the respective services.
-
 This was created by a beginner team for the [HackOR 2021 Hackathon](https://hackor.org/).
