@@ -25,6 +25,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -71,12 +72,14 @@ def show_friend(friend):
 def login():
 
     if request.method == 'GET':
-        form = LoginForm(request.form)
-        return render_template('forms/login.html', form=form)
+        login_form = LoginForm(request.form)
+        return render_template('forms/login.html', form=login_form)
 
     if request.method == 'POST':
-        form = LoginForm(request.form)
-        return render_template('forms/login.html', form=form)
+        login_name = request.form.get('name')
+        login_password = request.form.get('password')
+        print(login_name, login_password)
+        return redirect('/')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -84,13 +87,18 @@ def register():
 
     # user is visiting registration page for the first time
     if request.method == 'GET':
-        form = RegisterForm(request.form)
-        return render_template('forms/register.html', form=form)
+        register_form = RegisterForm(request.form)
+        return render_template('forms/register.html', form=register_form)
 
     # user has submitted a request to register
     if request.method == 'POST':
-        form = RegisterForm(request.form)
-        return redirect('/')
+        register_name = request.form.get('name')
+        register_email = request.form.get('email')
+        register_password = request.form.get('password')
+        print(register_name, register_email, register_password)
+        User(username=register_name, email=register_email,
+             password=register_password)
+        return redirect('/login')
 
 
 # @app.route('/forgot')
