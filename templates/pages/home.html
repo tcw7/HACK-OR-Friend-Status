@@ -5,18 +5,19 @@
 <div class="page-header">
     <h1>Friend Status</h1>
   </div>
-  <li><a href="{{ url_for('register') }}">Signup</a></li>
-    <li><a method="get" href="{{ url_for('login') }}">Login</a></li>
-    <br>
-  <p class="lead">Do you and your friends, teammates, or co-workers use multiple team chat applications?
-    Have you ever wished that you could see their status in those multiple services so you could reach them more quickly wherever they are currently active?</p>
-  <p>Friend Status is a web application that shows their current status across three different team chat platforms:</p>
-  <p>- [Slack](<a href="https://slack.com/">https://slack.com/</a>)</p>
-  <p>- [Discord](<a href="https://discord.com/">https://discord.com/</a>)</p>
-  <p>- [Zulip](<a href="https://zulip.com/">https://zulip.com/</a>)</p>
-  <p>We used boilerplate from: <a href="https://github.com/realpython/flask-boilerplate">https://github.com/realpython/flask-boilerplate</a></p>
-  <p>We also used code samples from the documentation of the respective services.</p>
-  <p>This was created by a beginner team for the [HackOR 2021 Hackathon](<a href="https://hackor.org/">https://hackor.org/</a>).</p>
+  <a type="submit" value="Submit" class="btn btn-primary btn-lg btn-block" method="get" href="{{ url_for('register') }}">Register</a>
+  <a type="submit" value="Submit" class="btn btn-primary btn-lg btn-block" method="get" href="{{ url_for('login') }}">Login</a>
+  <br>
+  <p class="lead">Do you and your friends, teammates, or co-workers use multiple team chat applications?</p>
+  <p class="lead">Have you ever wished that you could see their status in those multiple services so you could reach them more quickly wherever they are currently active?</p>
+  <p class="lead">Friend Status shows their current status across three different team chat platforms:</p>
+  <div class="lead">
+  <li><a href="https://slack.com/">Slack</a></li>
+  <li><a href="https://discord.com/">Discord</a></li>
+  <li><a href="https://zulip.com/">Zulip</a></li>
+    </div>
+  <p>Uses boilerplate from: <a href="https://github.com/realpython/flask-boilerplate">https://github.com/realpython/flask-boilerplate</a> and code snippets from the documentation of the respective services and modules.</p>
+  <p>Created by a beginner team for the <a href="https://hackor.org/">HackOR 2021 Hackathon</a>.</p>
 
 {% endblock %}
 
