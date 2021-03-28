@@ -24,12 +24,35 @@ db = SQLAlchemy(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), unique=True)
+    email = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(30))
+    # friends = db.relationship('Friend', backref='user', lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.name
+
+
+# class Friend(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     friendname = db.Column(db.String(120), nullable=False)
+#     serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     services = db.relationship('Service', backref='friend', lazy=True)
+
+#     def __repr__(self):
+#         return '<Friend %r>' % self.friendname
+
+
+# class Service(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     servicename = db.Column(db.String(120), nullable=False)
+#     servicestatus = db.Column(db.String(120), unique=True, nullable=False)
+#     friend_id = db.Column(db.Integer, db.ForeignKey(
+#         'friend.id'), nullable=False)
+
+#     def __repr__(self):
+#         return '<User %r>' % self.servicename
 
 
 db.create_all()
@@ -103,9 +126,9 @@ def login():
         login_name = request.form.get('name')
         login_password = request.form.get('password')
         print(login_name, login_password)
-        lookup = User.query.filter_by(username=login_name).first()
+        lookup = User.query.filter_by(name=login_name).first()
         print(lookup)
-        if login_name == lookup.username:
+        if login_name == lookup.name:
             if login_password == lookup.password:
                 session_user = login_name
                 print(session_user)
@@ -122,15 +145,10 @@ def register():
 
     # user has submitted a request to register
     if request.method == 'POST':
-        register_name = request.form.get('name')
-        register_email = request.form.get('email')
-        register_password = request.form.get('password')
-        print(register_name, register_email, register_password)
-        new_user = User(username=register_name, email=register_email,
-                        password=register_password)
-        db.session.add(new_user)
+        user = User(name=request.form.get("name"), email=request.form.get(
+            "email"), password=request.form.get("password"))
+        db.session.add(user)
         db.session.commit()
-        print(User.query.all())
         return redirect('/login')
 
 
