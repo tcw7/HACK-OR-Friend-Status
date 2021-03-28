@@ -27,30 +27,33 @@ class User(db.Model):
     name = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(30))
-    friends = db.relationship('Friend',backref='user',lazy=True)
-    
+    # friends = db.relationship('Friend', backref='user', lazy=True)
+
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.name
 
 
-class Friend(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    friendname = db.Column(db.String(120), nullable=False)
-    serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    services = db.relationship('Service',backref='friend',lazy=True)
-    
-    def __repr__(self):
-        return '<Friend %r>' % self.friendname
-    
-class Service(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    servicename =  db.Column(db.String(120), nullable=False)
-    servicestatus = db.Column(db.String(120), unique=True, nullable=False)
-    friend_id = db.Column(db.Integer, db.ForeignKey('friend.id'), nullable=False)
-    
-    def __repr__(self):
-        return '<User %r>' % self.servicename
+# class Friend(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     friendname = db.Column(db.String(120), nullable=False)
+#     serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     services = db.relationship('Service', backref='friend', lazy=True)
+
+#     def __repr__(self):
+#         return '<Friend %r>' % self.friendname
+
+
+# class Service(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     servicename = db.Column(db.String(120), nullable=False)
+#     servicestatus = db.Column(db.String(120), unique=True, nullable=False)
+#     friend_id = db.Column(db.Integer, db.ForeignKey(
+#         'friend.id'), nullable=False)
+
+#     def __repr__(self):
+#         return '<User %r>' % self.servicename
+
 
 db.create_all()
 
@@ -80,15 +83,36 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user_name = 'user-name'
+    user_name = 'user_name'
     friend_names = ['friend_1', 'friend_2', 'friend_3']
+    return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
+
+
+@app.route('/<string:user_name>')
+def home_user(user_name):
+    user_name = user_name
+    friend_names = ['Andre', 'Sean', 'Shenan']
     return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
 
 
 @app.route('/show_friend?friend=<string:friend>')
 def show_friend(friend):
     current_friend = friend
-    return render_template('pages/placeholder.about.html', current_friend=current_friend)
+    friend_statuses = [
+        {
+            'service': 'Discord',
+            'status': 'Active'
+        },
+        {
+            'service': 'Slack',
+            'status': 'Idle'
+        },
+        {
+            'service': 'Zulip',
+            'status': 'Idle'
+        }
+    ]
+    return render_template('pages/placeholder.about.html', current_friend=current_friend, friend_statuses=friend_statuses)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -99,7 +123,16 @@ def login():
         return render_template('forms/login.html', form=login_form)
 
     if request.method == 'POST':
-        return render_template('forms/login.html', form=form)
+        login_name = request.form.get('name')
+        login_password = request.form.get('password')
+        print(login_name, login_password)
+        lookup = User.query.filter_by(name=login_name).first()
+        print(lookup)
+        if login_name == lookup.name:
+            if login_password == lookup.password:
+                session_user = login_name
+                print(session_user)
+        return redirect(f'/{session_user}')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -112,12 +145,11 @@ def register():
 
     # user has submitted a request to register
     if request.method == 'POST':
-        user = User(name=request.form.get("name"), email=request.form.get("email"), password=request.form.get("password"))
+        user = User(name=request.form.get("name"), email=request.form.get(
+            "email"), password=request.form.get("password"))
         db.session.add(user)
         db.session.commit()
         return redirect('/login')
-        
-
 
 
 # @app.route('/forgot')
