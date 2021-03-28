@@ -13,10 +13,12 @@
           </tr>
         </thead>
         <tbody>
+            {% for dict in friend_statuses %}
             <tr>
-                <td>Service</td>
-                <td>Service_Status</td>
-              </tr>  
+                <td>{{ dict['service'] }}</td>
+                <td>{{ dict['status'] }}</td>
+            </tr>
+            {% endfor %}
           <!-- <tr>
             <th scope="row">2</th>
             <td>Jacob</td>

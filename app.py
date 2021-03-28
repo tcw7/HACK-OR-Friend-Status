@@ -60,15 +60,36 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user_name = 'user-name'
+    user_name = 'user_name'
     friend_names = ['friend_1', 'friend_2', 'friend_3']
+    return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
+
+
+@app.route('/<string:user_name>')
+def home_user(user_name):
+    user_name = user_name
+    friend_names = ['Andre', 'Sean', 'Shenan']
     return render_template('pages/placeholder.home.html', user_name=user_name, friend_names=friend_names)
 
 
 @app.route('/show_friend?friend=<string:friend>')
 def show_friend(friend):
     current_friend = friend
-    return render_template('pages/placeholder.about.html', current_friend=current_friend)
+    friend_statuses = [
+        {
+            'service': 'Discord',
+            'status': 'Active'
+        },
+        {
+            'service': 'Slack',
+            'status': 'Idle'
+        },
+        {
+            'service': 'Zulip',
+            'status': 'Idle'
+        }
+    ]
+    return render_template('pages/placeholder.about.html', current_friend=current_friend, friend_statuses=friend_statuses)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -88,7 +109,7 @@ def login():
             if login_password == lookup.password:
                 session_user = login_name
                 print(session_user)
-        return redirect('/')
+        return redirect(f'/{session_user}')
 
 
 @app.route('/register', methods=['GET', 'POST'])
