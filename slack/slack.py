@@ -20,6 +20,7 @@ def get_user_id(user_email):
         assert e.response["ok"] is False
         assert e.response["error"]
         print(f"Got an error: {e.response['error']}")
+    return response
 
 
 def get_user_status(user_id):
@@ -29,5 +30,6 @@ def get_user_status(user_id):
         assert e.response["ok"] is False
         assert e.response["error"]
         print(f"Got an error: {e.response['error']}")
+    return response
 
 
