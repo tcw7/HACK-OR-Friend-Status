@@ -22,37 +22,36 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
-    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(30))
-    # friends = db.relationship('Friend', backref='user', lazy=True)
+    friends = db.relationship('Friend', backref='user', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.name
 
 
-# class Friend(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     friendname = db.Column(db.String(120), nullable=False)
-#     serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#     services = db.relationship('Service', backref='friend', lazy=True)
+class Friend(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    friendname = db.Column(db.String(120), nullable=False)
+    serviceidentifier = db.Column(db.String(120), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    services = db.relationship('Service', backref='friend', lazy=True)
 
-#     def __repr__(self):
-#         return '<Friend %r>' % self.friendname
+    def __repr__(self):
+        return '<Friend %r>' % self.friendname
 
 
-# class Service(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     servicename = db.Column(db.String(120), nullable=False)
-#     servicestatus = db.Column(db.String(120), unique=True, nullable=False)
-#     friend_id = db.Column(db.Integer, db.ForeignKey(
-#         'friend.id'), nullable=False)
+class Service(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    servicename = db.Column(db.String(120), nullable=False)
+    servicestatus = db.Column(db.String(120), unique=True, nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey(
+        'friend.id'), nullable=False)
 
-#     def __repr__(self):
-#         return '<User %r>' % self.servicename
+    def __repr__(self):
+        return '<User %r>' % self.servicename
 
 
 db.create_all()
